@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 250, 250, 250;
+  --background-end-rgb: 255, 255, 255;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom styles */
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.star-rating button {
+  transition: transform 0.1s ease;
+}
+
+.star-rating button:hover {
+  transform: scale(1.1);
+}
+
+/* Category tags */
+.category-tag {
+  @apply inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary-100 text-primary-800;
+}
+
+/* Card hover effect */
+.paper-card {
+  @apply transition-shadow duration-200;
+}
+
+.paper-card:hover {
+  @apply shadow-lg;
+}

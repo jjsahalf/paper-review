@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Paper {
+  id           String        @id @default(uuid())
+  title        String
+  authors      String        // JSON array of authors
+  abstract     String
+  arxivId      String?       @unique
+  pdfUrl       String?
+  publishedAt  DateTime?
+  categories   String        // JSON array of categories
+  avgRating    Float         @default(0)
+  ratingCount  Int           @default(0)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  ratings      Rating[]
+  shortReviews ShortReview[]
+  longReviews  LongReview[]
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  paperId   String
+  score     Int      // 1-5
+  visitorId String
+  createdAt DateTime @default(now())
+
+  paper     Paper    @relation(fields: [paperId], references: [id], onDelete: Cascade)
+
+  @@unique([paperId, visitorId])
+}
+
+model ShortReview {
+  id        String   @id @default(uuid())
+  paperId   String
+  content   String   // Limited to 140 characters
+  nickname  String
+  upvotes   Int      @default(0)
+  downvotes Int      @default(0)
+  createdAt DateTime @default(now())
+
+  paper     Paper    @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  votes     Vote[]
+}
+
+model LongReview {
+  id        String   @id @default(uuid())
+  paperId   String
+  title     String
+  content   String   // Markdown content
+  nickname  String
+  upvotes   Int      @default(0)
+  downvotes Int      @default(0)
+  createdAt DateTime @default(now())
+
+  paper     Paper    @relation(fields: [paperId], references: [id], onDelete: Cascade)
+  votes     Vote[]
+}
+
+model Vote {
+  id            String       @id @default(uuid())
+  reviewType    String       // "short" or "long"
+  visitorId     String
+  voteType      String       // "up" or "down"
+  createdAt     DateTime     @default(now())
+
+  shortReviewId String?
+  longReviewId  String?
+
+  shortReview   ShortReview? @relation(fields: [shortReviewId], references: [id], onDelete: Cascade)
+  longReview    LongReview?  @relation(fields: [longReviewId], references: [id], onDelete: Cascade)
+
+  @@unique([shortReviewId, visitorId])
+  @@unique([longReviewId, visitorId])
+}
