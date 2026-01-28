@@ -6,8 +6,8 @@ import './globals.css'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: '论文版豆瓣 - Paper Douban',
-  description: '一个用于评论计算机科学和人工智能领域论文的网站',
+  title: '开源论文评审 - Open Paper Review',
+  description: '开源论文（非同行？）评审 - 一个开放的学术论文评论平台',
 }
 
 export default function RootLayout({
@@ -25,7 +25,7 @@ export default function RootLayout({
                 href="/"
                 className="text-xl font-bold text-primary-600 hover:text-primary-700"
               >
-                📚 论文版豆瓣
+                📚 开源论文评审
               </Link>
               <div className="flex items-center gap-4">
                 <Link
@@ -48,7 +48,7 @@ export default function RootLayout({
           </main>
           <footer className="bg-gray-100 border-t border-gray-200 py-6">
             <div className="max-w-6xl mx-auto px-4 text-center text-gray-600 text-sm">
-              论文版豆瓣 - 发现和分享优质学术论文
+              开源论文评审 - 开放的学术论文评论平台
             </div>
           </footer>
         </div>
