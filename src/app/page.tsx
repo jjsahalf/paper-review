@@ -81,7 +81,7 @@ export default function HomePage() {
           开源论文（非同行？）评审
         </h1>
         <p className="text-gray-600">
-          一个开放的学术论文评论平台，让每个人都能参与论文评审
+          探索和评论计算机科学与人工智能领域的前沿研究
         </p>
       </div>
 
