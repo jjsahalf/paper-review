@@ -7,7 +7,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: '开源论文评审 - Open Paper Review',
-  description: '开源论文（非同行？）评审 - 一个开放的学术论文评论平台',
+  description: '开源论文评审 - 探索和评论计算机科学与人工智能领域的前沿研究',
 }
 
 export default function RootLayout({
