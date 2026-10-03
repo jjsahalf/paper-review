@@ -1,0 +1,122 @@
+{
+  "common": {
+    "home": "首页",
+    "addPaper": "添加论文",
+    "search": "搜索",
+    "cancel": "取消",
+    "submit": "提交",
+    "submitting": "提交中...",
+    "loading": "加载中...",
+    "backToHome": "返回首页",
+    "backToList": "返回列表",
+    "backToPaper": "返回论文",
+    "siteName": "开源论文评审",
+    "siteDescription": "开放的学术论文评论平台"
+  },
+  "home": {
+    "title": "开源论文评审",
+    "subtitle": "探索和评论计算机科学与人工智能领域的前沿研究",
+    "searchPlaceholder": "搜索论文标题、作者或摘要...",
+    "noPapers": "暂无论文",
+    "addFirstPaper": "添加第一篇论文",
+    "prevPage": "上一页",
+    "nextPage": "下一页"
+  },
+  "categories": {
+    "all": "全部",
+    "nlp": "NLP",
+    "cv": "计算机视觉",
+    "ml": "机器学习",
+    "ai": "人工智能",
+    "statML": "统计机器学习"
+  },
+  "sort": {
+    "newest": "最新",
+    "rating": "评分最高",
+    "popular": "最多评分"
+  },
+  "paper": {
+    "notFound": "论文不存在",
+    "publishedAt": "发表于",
+    "abstract": "摘要",
+    "viewPdf": "查看 PDF"
+  },
+  "rating": {
+    "title": "评分",
+    "average": "平均评分",
+    "yourRating": "你的评分",
+    "rateThisPaper": "给这篇论文评分",
+    "ratingCount": "{count}人评分"
+  },
+  "addPaper": {
+    "title": "添加论文",
+    "importFromArxiv": "从 arXiv 导入",
+    "orManualEntry": "或手动填写",
+    "paperTitle": "论文标题",
+    "paperTitlePlaceholder": "输入论文标题",
+    "authors": "作者",
+    "authorsPlaceholder": "作者姓名，用逗号分隔",
+    "abstractLabel": "摘要",
+    "abstractPlaceholder": "输入论文摘要",
+    "arxivId": "arXiv ID",
+    "arxivIdPlaceholder": "例如：2301.00234",
+    "publishDate": "发表日期",
+    "pdfLink": "PDF 链接",
+    "pdfLinkPlaceholder": "https://...",
+    "categoryTags": "分类标签",
+    "enterTag": "输入标签",
+    "add": "添加",
+    "submitPaper": "添加论文",
+    "errorTitleRequired": "请输入论文标题",
+    "errorAuthorsRequired": "请输入作者",
+    "errorAbstractRequired": "请输入摘要",
+    "errorArxivExists": "该 arXiv ID 的论文已存在",
+    "errorSubmitFailed": "提交失败，请重试"
+  },
+  "arxivImport": {
+    "label": "从 arXiv 导入",
+    "placeholder": "输入 arXiv ID，例如：2301.00234",
+    "import": "导入",
+    "importing": "导入中...",
+    "errorRequired": "请输入 arXiv ID",
+    "errorFailed": "导入失败，请检查 arXiv ID",
+    "hint": "输入论文的 arXiv ID（如 2301.00234 或 cs.CL/2301.00234），将自动获取论文信息"
+  },
+  "shortReview": {
+    "title": "短评",
+    "nickname": "昵称",
+    "nicknamePlaceholder": "输入你的昵称",
+    "contentPlaceholder": "写下你对这篇论文的简短评价...",
+    "publish": "发布短评",
+    "publishing": "提交中...",
+    "noReviews": "暂无短评，来写第一条吧！",
+    "hot": "热门",
+    "new": "最新",
+    "errorContentRequired": "请输入评论内容",
+    "errorContentTooLong": "评论内容不能超过140字",
+    "errorNicknameRequired": "请输入昵称",
+    "errorSubmitFailed": "提交失败，请重试"
+  },
+  "longReview": {
+    "title": "长评",
+    "writeLongReview": "写长评",
+    "reviewTitle": "评论标题",
+    "reviewTitlePlaceholder": "给你的评论起个标题",
+    "content": "评论内容",
+    "contentPlaceholder": "写下你对这篇论文的详细评价...\n\n支持 Markdown 格式：\n- **粗体**\n- *斜体*\n- `代码`\n- [链接](url)",
+    "markdownSupported": "支持 Markdown 格式",
+    "publish": "发布长评",
+    "publishing": "发布中...",
+    "noReviews": "暂无长评，来写第一篇吧！",
+    "forPaper": "论文：{title}",
+    "errorTitleRequired": "请输入评论标题",
+    "errorContentRequired": "请输入评论内容",
+    "errorNicknameRequired": "请输入昵称",
+    "errorSubmitFailed": "提交失败，请重试"
+  },
+  "language": {
+    "switch": "切换语言",
+    "zh": "中文",
+    "en": "English"
+  }
+}

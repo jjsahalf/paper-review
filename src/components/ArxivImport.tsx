@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -19,13 +20,14 @@ interface ArxivImportProps {
 }
 
 export function ArxivImport({ onImport }: ArxivImportProps) {
+  const t = useTranslations('arxivImport')
   const [arxivId, setArxivId] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
   const handleImport = async () => {
     if (!arxivId.trim()) {
-      setError('请输入 arXiv ID')
+      setError(t('errorRequired'))
       return
     }
 
@@ -37,7 +39,7 @@ export function ArxivImport({ onImport }: ArxivImportProps) {
 
       if (!response.ok) {
         const data = await response.json()
-        throw new Error(data.error || '导入失败')
+        throw new Error(data.error || t('errorFailed'))
       }
 
       const paper = await response.json()
@@ -47,7 +49,7 @@ export function ArxivImport({ onImport }: ArxivImportProps) {
       })
       setArxivId('')
     } catch (err) {
-      setError(err instanceof Error ? err.message : '导入失败，请检查 arXiv ID')
+      setError(err instanceof Error ? err.message : t('errorFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -55,23 +57,23 @@ export function ArxivImport({ onImport }: ArxivImportProps) {
 
   return (
     <div className="space-y-3">
-      <Label htmlFor="arxiv-id">从 arXiv 导入</Label>
+      <Label htmlFor="arxiv-id">{t('label')}</Label>
       <div className="flex gap-2">
         <Input
           id="arxiv-id"
           value={arxivId}
           onChange={(e) => setArxivId(e.target.value)}
-          placeholder="输入 arXiv ID，例如：2301.00234"
+          placeholder={t('placeholder')}
           className="flex-1"
         />
         <Button onClick={handleImport} disabled={isLoading} variant="secondary">
           <Search className="w-4 h-4 mr-2" />
-          {isLoading ? '导入中...' : '导入'}
+          {isLoading ? t('importing') : t('import')}
         </Button>
       </div>
       {error && <p className="text-sm text-red-500">{error}</p>}
       <p className="text-xs text-gray-500">
-        输入论文的 arXiv ID（如 2301.00234 或 cs.CL/2301.00234），将自动获取论文信息
+        {t('hint')}
       </p>
     </div>
   )

@@ -10,12 +10,13 @@
 - **短评**：140 字以内
 - **长评**：带标题，支持简单的 Markdown（标题、粗体、斜体、代码、链接）
 - **投票**：对评论点赞或点踩，再点一次取消
+- **中英双语**：界面支持简体中文和英文，右上角切换（URL 前缀 `/zh-CN/...`、`/en/...`）
 
 没有账号体系。访客身份是浏览器 `localStorage` 里随机生成的 `visitorId`，昵称在评论时自填。
 
 ## 技术栈
 
-Next.js 14（App Router）· React 18 · TypeScript · Prisma 5 · SQLite（本地）/ Turso（线上）· Tailwind CSS
+Next.js 14（App Router）· React 18 · TypeScript · next-intl · Prisma 5 · SQLite（本地）/ Turso（线上）· Tailwind CSS
 
 ## 本地开发
 
@@ -60,12 +61,15 @@ npm run dev    # http://localhost:3000
 
 ```
 prisma/schema.prisma      数据模型：Paper、Rating、ShortReview、LongReview、Vote
+messages/                 界面文案：zh-CN.json、en.json
+src/middleware.ts         语言路由：没有语言前缀的地址跳转到 /zh-CN/...
+src/i18n/                 next-intl 配置：支持的语言、服务端加载文案、带语言前缀的 Link / useRouter
 src/app/                  页面（App Router）
-  page.tsx                首页：论文列表、搜索、筛选
-  paper/add/              添加论文（手动填写或 arXiv 导入）
-  paper/[id]/             论文详情：评分、短评、长评
-  paper/[id]/review/new/  写长评
-  api/                    后端接口（见下表）
+  [locale]/page.tsx                首页：论文列表、搜索、筛选
+  [locale]/paper/add/              添加论文（手动填写或 arXiv 导入）
+  [locale]/paper/[id]/             论文详情：评分、短评、长评
+  [locale]/paper/[id]/review/new/  写长评
+  api/                    后端接口（见下表，不带语言前缀）
 src/components/           业务组件；ui/ 下是通用基础组件
 src/lib/                  prisma.ts（数据库客户端）、arxiv.ts（arXiv API）、utils.ts
 ```

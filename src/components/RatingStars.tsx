@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -21,6 +22,7 @@ export function RatingStars({
   showScore = false,
   ratingCount,
 }: RatingStarsProps) {
+  const t = useTranslations('rating')
   const [hoverRating, setHoverRating] = useState(0)
 
   const sizeClasses = {
@@ -65,7 +67,7 @@ export function RatingStars({
       )}
       {ratingCount !== undefined && (
         <span className="text-sm text-gray-500">
-          ({ratingCount}人评分)
+          ({t('ratingCount', { count: ratingCount })})
         </span>
       )}
     </div>

@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { VoteButtons } from '@/components/VoteButtons'
 import { formatDate } from '@/lib/utils'
 
@@ -19,6 +20,8 @@ interface ShortReviewListProps {
 }
 
 export function ShortReviewList({ paperId, refreshTrigger }: ShortReviewListProps) {
+  const t = useTranslations('shortReview')
+  const tCommon = useTranslations('common')
   const [reviews, setReviews] = useState<ShortReview[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [sortBy, setSortBy] = useState<'hot' | 'new'>('hot')
@@ -45,13 +48,13 @@ export function ShortReviewList({ paperId, refreshTrigger }: ShortReviewListProp
   }, [paperId, sortBy, refreshTrigger])
 
   if (isLoading) {
-    return <div className="py-4 text-center text-gray-500">加载中...</div>
+    return <div className="py-4 text-center text-gray-500">{tCommon('loading')}</div>
   }
 
   if (reviews.length === 0) {
     return (
       <div className="py-8 text-center text-gray-500">
-        暂无短评，来写第一条吧！
+        {t('noReviews')}
       </div>
     )
   }
@@ -67,7 +70,7 @@ export function ShortReviewList({ paperId, refreshTrigger }: ShortReviewListProp
               : 'text-gray-500 hover:bg-gray-100'
           }`}
         >
-          热门
+          {t('hot')}
         </button>
         <button
           onClick={() => setSortBy('new')}
@@ -77,7 +80,7 @@ export function ShortReviewList({ paperId, refreshTrigger }: ShortReviewListProp
               : 'text-gray-500 hover:bg-gray-100'
           }`}
         >
-          最新
+          {t('new')}
         </button>
       </div>
       <div className="divide-y divide-gray-100">

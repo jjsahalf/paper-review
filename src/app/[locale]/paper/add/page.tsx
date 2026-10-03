@@ -1,7 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter } from '@/i18n/navigation'
+import { useTranslations } from 'next-intl'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -26,6 +27,8 @@ const CATEGORY_OPTIONS = [
 
 export default function AddPaperPage() {
   const router = useRouter()
+  const t = useTranslations('addPaper')
+  const tCommon = useTranslations('common')
 
   const [title, setTitle] = useState('')
   const [authors, setAuthors] = useState('')
@@ -73,17 +76,17 @@ export default function AddPaperPage() {
     setError('')
 
     if (!title.trim()) {
-      setError('请输入论文标题')
+      setError(t('errorTitleRequired'))
       return
     }
 
     if (!authors.trim()) {
-      setError('请输入作者')
+      setError(t('errorAuthorsRequired'))
       return
     }
 
     if (!abstract.trim()) {
-      setError('请输入摘要')
+      setError(t('errorAbstractRequired'))
       return
     }
 
@@ -113,7 +116,7 @@ export default function AddPaperPage() {
 
       if (response.status === 409) {
         const data = await response.json()
-        setError(`该 arXiv ID 的论文已存在`)
+        setError(t('errorArxivExists'))
         if (data.paperId) {
           router.push(`/paper/${data.paperId}`)
         }
@@ -121,13 +124,13 @@ export default function AddPaperPage() {
       }
 
       if (!response.ok) {
-        throw new Error('提交失败')
+        throw new Error(t('errorSubmitFailed'))
       }
 
       const paper = await response.json()
       router.push(`/paper/${paper.id}`)
     } catch {
-      setError('提交失败，请重试')
+      setError(t('errorSubmitFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -137,7 +140,7 @@ export default function AddPaperPage() {
     <div className="max-w-2xl mx-auto">
       <Card>
         <CardHeader>
-          <CardTitle>添加论文</CardTitle>
+          <CardTitle>{t('title')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           {/* arXiv Import */}
@@ -150,61 +153,61 @@ export default function AddPaperPage() {
               <div className="w-full border-t border-gray-200"></div>
             </div>
             <div className="relative flex justify-center text-sm">
-              <span className="bg-white px-4 text-gray-500">或手动填写</span>
+              <span className="bg-white px-4 text-gray-500">{t('orManualEntry')}</span>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="title">
-                论文标题 <span className="text-red-500">*</span>
+                {t('paperTitle')} <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="输入论文标题"
+                placeholder={t('paperTitlePlaceholder')}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="authors">
-                作者 <span className="text-red-500">*</span>
+                {t('authors')} <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="authors"
                 value={authors}
                 onChange={(e) => setAuthors(e.target.value)}
-                placeholder="作者姓名，用逗号分隔"
+                placeholder={t('authorsPlaceholder')}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="abstract">
-                摘要 <span className="text-red-500">*</span>
+                {t('abstractLabel')} <span className="text-red-500">*</span>
               </Label>
               <Textarea
                 id="abstract"
                 value={abstract}
                 onChange={(e) => setAbstract(e.target.value)}
-                placeholder="输入论文摘要"
+                placeholder={t('abstractPlaceholder')}
                 rows={6}
               />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="arxivId">arXiv ID</Label>
+                <Label htmlFor="arxivId">{t('arxivId')}</Label>
                 <Input
                   id="arxivId"
                   value={arxivId}
                   onChange={(e) => setArxivId(e.target.value)}
-                  placeholder="例如：2301.00234"
+                  placeholder={t('arxivIdPlaceholder')}
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="publishedAt">发表日期</Label>
+                <Label htmlFor="publishedAt">{t('publishDate')}</Label>
                 <Input
                   id="publishedAt"
                   type="date"
@@ -215,17 +218,17 @@ export default function AddPaperPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="pdfUrl">PDF 链接</Label>
+              <Label htmlFor="pdfUrl">{t('pdfLink')}</Label>
               <Input
                 id="pdfUrl"
                 value={pdfUrl}
                 onChange={(e) => setPdfUrl(e.target.value)}
-                placeholder="https://..."
+                placeholder={t('pdfLinkPlaceholder')}
               />
             </div>
 
             <div className="space-y-2">
-              <Label>分类标签</Label>
+              <Label>{t('categoryTags')}</Label>
               <div className="flex flex-wrap gap-2 mb-2">
                 {categories.map((cat) => (
                   <Badge key={cat} className="gap-1">
@@ -244,7 +247,7 @@ export default function AddPaperPage() {
                 <Input
                   value={newCategory}
                   onChange={(e) => setNewCategory(e.target.value)}
-                  placeholder="输入标签"
+                  placeholder={t('enterTag')}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') {
                       e.preventDefault()
@@ -257,7 +260,7 @@ export default function AddPaperPage() {
                   variant="outline"
                   onClick={() => addCategory(newCategory)}
                 >
-                  添加
+                  {t('add')}
                 </Button>
               </div>
               <div className="flex flex-wrap gap-1 mt-2">
@@ -280,14 +283,14 @@ export default function AddPaperPage() {
 
             <div className="flex gap-4">
               <Button type="submit" disabled={isLoading} className="flex-1">
-                {isLoading ? '提交中...' : '添加论文'}
+                {isLoading ? tCommon('submitting') : t('submitPaper')}
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => router.back()}
               >
-                取消
+                {tCommon('cancel')}
               </Button>
             </div>
           </form>

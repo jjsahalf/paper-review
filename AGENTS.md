@@ -22,11 +22,19 @@ npx prisma db push                            # 建表 + 生成 Prisma Client
 - 路径别名 `@/*` 指向 `src/*`。
 - 页面基本都是 `'use client'` 组件，在 `useEffect` 里 `fetch('/api/...')` 取数据；数据库读写只发生在 `src/app/api/**/route.ts`。
 - API 路由的写法：返回 `NextResponse.json(...)`；参数校验失败返回 `{ error: '...' }` 加 400/404；数据库操作包在 `try/catch` 里，出错时 `console.error` 并返回 `{ error }` 加 500。例外是 `GET /api/papers/[id]/rate`，出错时返回 200 和 `{ userScore: null }`。
-- 接口错误信息用英文，界面文字用中文。前端展示错误时用中文文案，不要直接显示接口返回的英文 `error`（`ArxivImport` 目前直接显示了，属于遗留问题）。
+- 接口错误信息用英文。前端展示错误时用翻译后的文案，不要直接显示接口返回的英文 `error`（`ArxivImport` 目前直接显示了，属于遗留问题）。
 - 数据库只通过 `import { prisma } from '@/lib/prisma'` 访问，不要自己 `new PrismaClient()`：这个文件负责在本地 SQLite 和 Turso 之间切换。
 - 动态路由参数：API 路由（`route.ts`）用 Next 14 的同步写法 `{ params }: { params: { id: string } }`，不是 Promise；页面是客户端组件，用 `useParams()`。
 - 基础 UI 组件在 `src/components/ui/`，是 shadcn 风格：都用 `cn()` 合并类名，有变体的组件（button、badge）用 cva。主题色用 Tailwind 的 `primary-*`（橙色，定义在 `tailwind.config.ts`）。
 - 论文详情页的数据来源：论文信息和长评来自 `GET /api/papers/[id]`（只返回最新 5 条长评）；短评由 `ShortReviewList` 单独请求 `GET /api/reviews?type=short`。`/api/papers/[id]` 返回的 `shortReviews` 页面没有用到。
+
+## 国际化（next-intl）
+
+- 支持 `zh-CN`（默认）和 `en`，定义在 `src/i18n/config.ts`。`src/middleware.ts` 用 `localePrefix: 'always'`，所有页面地址都带语言前缀，没有前缀的地址会被跳转。
+- 页面都在 `src/app/[locale]/` 下；`src/app/layout.tsx` 只是最外层壳，导航栏和 `NextIntlClientProvider` 在 `src/app/[locale]/layout.tsx`。API 路由留在 `src/app/api/`，不带语言前缀，middleware 的 matcher 已排除 `api`。
+- 界面文字不要写死在组件里，放进 `messages/zh-CN.json` 和 `messages/en.json`，两个文件的 key 要同步增删；组件里用 `useTranslations('<命名空间>')` 取。
+- 页面内跳转用 `@/i18n/navigation` 导出的 `Link` / `useRouter`，不要用 `next/link` / `next/navigation` 的，否则会丢掉语言前缀。`href` 写不带语言前缀的路径，如 `/paper/${id}`。
+- `src/app/[locale]/layout.tsx` 里的 `generateStaticParams` 和 `setRequestLocale` 让页面能按语言静态生成，不要删。
 
 ## 数据模型的坑
 
@@ -59,6 +67,7 @@ npx prisma db push                            # 建表 + 生成 Prisma Client
 
 ## 部署
 
+- 线上地址 https://paper-reviews.vercel.app ，Vercel 项目名 `paper-reviews`，Turso 数据库名 `paper-review`。手动部署用 `vercel --prod`。
 - `next.config.js` 里的 `serverComponentsExternalPackages`（Prisma 和 libsql）是修 Vercel 部署时加上的（commit c6d72be）。其中几个包可能已经在 Next 的内置列表里，但没有验证过哪个是必需的；删之前先在 Vercel 预览部署上验证。
 - 线上只需要 `TURSO_DATABASE_URL` 和 `TURSO_AUTH_TOKEN`，两个都设置时才会走 Turso。
 - arXiv 导入调用的是 `export.arxiv.org`。`fetchArxivPaper()` 遇到任何失败（包括网络不通）都返回 `null`，接口因此统一报 404 "Paper not found on arXiv"。在没有外网的环境里测不了导入，看到 404 不要误以为是 ID 写错了。

@@ -1,8 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useParams } from 'next/navigation'
+import { useTranslations } from 'next-intl'
+import { useRouter, Link } from '@/i18n/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -19,6 +20,9 @@ export default function NewLongReviewPage() {
   const params = useParams()
   const router = useRouter()
   const paperId = params.id as string
+  const t = useTranslations('longReview')
+  const tShort = useTranslations('shortReview')
+  const tCommon = useTranslations('common')
 
   const [paper, setPaper] = useState<Paper | null>(null)
   const [title, setTitle] = useState('')
@@ -48,17 +52,17 @@ export default function NewLongReviewPage() {
     setError('')
 
     if (!title.trim()) {
-      setError('请输入评论标题')
+      setError(t('errorTitleRequired'))
       return
     }
 
     if (!content.trim()) {
-      setError('请输入评论内容')
+      setError(t('errorContentRequired'))
       return
     }
 
     if (!nickname.trim()) {
-      setError('请输入昵称')
+      setError(t('errorNicknameRequired'))
       return
     }
 
@@ -80,12 +84,12 @@ export default function NewLongReviewPage() {
       })
 
       if (!response.ok) {
-        throw new Error('提交失败')
+        throw new Error(t('errorSubmitFailed'))
       }
 
       router.push(`/paper/${paperId}`)
     } catch {
-      setError('提交失败，请重试')
+      setError(t('errorSubmitFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -98,15 +102,15 @@ export default function NewLongReviewPage() {
         className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-6"
       >
         <ArrowLeft className="w-4 h-4" />
-        返回论文
+        {tCommon('backToPaper')}
       </Link>
 
       <Card>
         <CardHeader>
-          <CardTitle>写长评</CardTitle>
+          <CardTitle>{t('writeLongReview')}</CardTitle>
           {paper && (
             <p className="text-sm text-gray-500">
-              论文：{paper.title}
+              {t('forPaper', { title: paper.title })}
             </p>
           )}
         </CardHeader>
@@ -114,44 +118,44 @@ export default function NewLongReviewPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="nickname">
-                昵称 <span className="text-red-500">*</span>
+                {tShort('nickname')} <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="nickname"
                 value={nickname}
                 onChange={(e) => setNickname(e.target.value)}
-                placeholder="输入你的昵称"
+                placeholder={tShort('nicknamePlaceholder')}
                 maxLength={20}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="title">
-                评论标题 <span className="text-red-500">*</span>
+                {t('reviewTitle')} <span className="text-red-500">*</span>
               </Label>
               <Input
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                placeholder="给你的评论起个标题"
+                placeholder={t('reviewTitlePlaceholder')}
                 maxLength={100}
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="content">
-                评论内容 <span className="text-red-500">*</span>
+                {t('content')} <span className="text-red-500">*</span>
               </Label>
               <Textarea
                 id="content"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="写下你对这篇论文的详细评价...&#10;&#10;支持 Markdown 格式：&#10;- **粗体**&#10;- *斜体*&#10;- `代码`&#10;- [链接](url)"
+                placeholder={t('contentPlaceholder')}
                 rows={15}
                 className="font-mono"
               />
               <p className="text-xs text-gray-500">
-                支持 Markdown 格式
+                {t('markdownSupported')}
               </p>
             </div>
 
@@ -159,14 +163,14 @@ export default function NewLongReviewPage() {
 
             <div className="flex gap-4">
               <Button type="submit" disabled={isLoading} className="flex-1">
-                {isLoading ? '发布中...' : '发布长评'}
+                {isLoading ? t('publishing') : t('publish')}
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => router.back()}
               >
-                取消
+                {tCommon('cancel')}
               </Button>
             </div>
           </form>

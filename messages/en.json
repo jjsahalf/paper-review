@@ -1,0 +1,122 @@
+{
+  "common": {
+    "home": "Home",
+    "addPaper": "Add Paper",
+    "search": "Search",
+    "cancel": "Cancel",
+    "submit": "Submit",
+    "submitting": "Submitting...",
+    "loading": "Loading...",
+    "backToHome": "Back to Home",
+    "backToList": "Back to List",
+    "backToPaper": "Back to Paper",
+    "siteName": "Open Paper Review",
+    "siteDescription": "Open academic paper review platform"
+  },
+  "home": {
+    "title": "Open Paper Review",
+    "subtitle": "Explore and review cutting-edge research in computer science and artificial intelligence",
+    "searchPlaceholder": "Search paper titles, authors, or abstracts...",
+    "noPapers": "No papers yet",
+    "addFirstPaper": "Add the first paper",
+    "prevPage": "Previous",
+    "nextPage": "Next"
+  },
+  "categories": {
+    "all": "All",
+    "nlp": "NLP",
+    "cv": "Computer Vision",
+    "ml": "Machine Learning",
+    "ai": "Artificial Intelligence",
+    "statML": "Statistical ML"
+  },
+  "sort": {
+    "newest": "Newest",
+    "rating": "Highest Rated",
+    "popular": "Most Rated"
+  },
+  "paper": {
+    "notFound": "Paper not found",
+    "publishedAt": "Published on",
+    "abstract": "Abstract",
+    "viewPdf": "View PDF"
+  },
+  "rating": {
+    "title": "Rating",
+    "average": "Average Rating",
+    "yourRating": "Your Rating",
+    "rateThisPaper": "Rate this paper",
+    "ratingCount": "{count} ratings"
+  },
+  "addPaper": {
+    "title": "Add Paper",
+    "importFromArxiv": "Import from arXiv",
+    "orManualEntry": "or enter manually",
+    "paperTitle": "Paper Title",
+    "paperTitlePlaceholder": "Enter paper title",
+    "authors": "Authors",
+    "authorsPlaceholder": "Author names, separated by commas",
+    "abstractLabel": "Abstract",
+    "abstractPlaceholder": "Enter paper abstract",
+    "arxivId": "arXiv ID",
+    "arxivIdPlaceholder": "e.g., 2301.00234",
+    "publishDate": "Publish Date",
+    "pdfLink": "PDF Link",
+    "pdfLinkPlaceholder": "https://...",
+    "categoryTags": "Category Tags",
+    "enterTag": "Enter tag",
+    "add": "Add",
+    "submitPaper": "Add Paper",
+    "errorTitleRequired": "Please enter paper title",
+    "errorAuthorsRequired": "Please enter authors",
+    "errorAbstractRequired": "Please enter abstract",
+    "errorArxivExists": "A paper with this arXiv ID already exists",
+    "errorSubmitFailed": "Submission failed, please try again"
+  },
+  "arxivImport": {
+    "label": "Import from arXiv",
+    "placeholder": "Enter arXiv ID, e.g., 2301.00234",
+    "import": "Import",
+    "importing": "Importing...",
+    "errorRequired": "Please enter arXiv ID",
+    "errorFailed": "Import failed, please check arXiv ID",
+    "hint": "Enter paper arXiv ID (e.g., 2301.00234 or cs.CL/2301.00234) to auto-fetch paper info"
+  },
+  "shortReview": {
+    "title": "Short Reviews",
+    "nickname": "Nickname",
+    "nicknamePlaceholder": "Enter your nickname",
+    "contentPlaceholder": "Write a brief review of this paper...",
+    "publish": "Post Review",
+    "publishing": "Submitting...",
+    "noReviews": "No reviews yet. Be the first to write one!",
+    "hot": "Hot",
+    "new": "Latest",
+    "errorContentRequired": "Please enter review content",
+    "errorContentTooLong": "Review content cannot exceed 140 characters",
+    "errorNicknameRequired": "Please enter nickname",
+    "errorSubmitFailed": "Submission failed, please try again"
+  },
+  "longReview": {
+    "title": "Long Reviews",
+    "writeLongReview": "Write Review",
+    "reviewTitle": "Review Title",
+    "reviewTitlePlaceholder": "Give your review a title",
+    "content": "Review Content",
+    "contentPlaceholder": "Write your detailed review of this paper...\n\nMarkdown supported:\n- **bold**\n- *italic*\n- `code`\n- [link](url)",
+    "markdownSupported": "Markdown supported",
+    "publish": "Publish Review",
+    "publishing": "Publishing...",
+    "noReviews": "No reviews yet. Be the first to write one!",
+    "forPaper": "Paper: {title}",
+    "errorTitleRequired": "Please enter review title",
+    "errorContentRequired": "Please enter review content",
+    "errorNicknameRequired": "Please enter nickname",
+    "errorSubmitFailed": "Submission failed, please try again"
+  },
+  "language": {
+    "switch": "Switch Language",
+    "zh": "Chinese",
+    "en": "English"
+  }
+}
