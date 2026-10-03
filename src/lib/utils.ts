@@ -14,6 +14,16 @@ export function formatDate(date: Date | string): string {
   })
 }
 
+// Only allow http(s) links, so user input like `javascript:...` can't end up in an href
+export function isSafeUrl(url: string): boolean {
+  try {
+    const { protocol } = new URL(url)
+    return protocol === 'http:' || protocol === 'https:'
+  } catch {
+    return false
+  }
+}
+
 export function getVisitorId(): string {
   if (typeof window === 'undefined') return ''
 

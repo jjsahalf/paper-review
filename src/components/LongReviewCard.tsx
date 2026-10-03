@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { VoteButtons } from '@/components/VoteButtons'
-import { formatDate } from '@/lib/utils'
+import { formatDate, isSafeUrl } from '@/lib/utils'
 
 interface LongReview {
   id: string
@@ -50,6 +50,8 @@ function renderMarkdown(content: string): string {
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
     // Headers
     .replace(/^### (.*$)/gim, '<h3 class="text-lg font-semibold mt-4 mb-2">$1</h3>')
     .replace(/^## (.*$)/gim, '<h2 class="text-xl font-semibold mt-4 mb-2">$1</h2>')
@@ -63,7 +65,11 @@ function renderMarkdown(content: string): string {
     // Inline code
     .replace(/`(.*?)`/gim, '<code class="bg-gray-100 px-1 rounded">$1</code>')
     // Links
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2" class="text-primary-600 hover:underline" target="_blank" rel="noopener">$1</a>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, (match, text, url) =>
+      isSafeUrl(url.replace(/&amp;/g, '&'))
+        ? `<a href="${url}" class="text-primary-600 hover:underline" target="_blank" rel="noopener noreferrer">${text}</a>`
+        : match
+    )
     // Line breaks
     .replace(/\n/gim, '<br />')
 }

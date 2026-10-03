@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import { isSafeUrl } from '@/lib/utils'
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
@@ -75,6 +76,13 @@ export async function POST(request: NextRequest) {
     if (!title || !authors || !abstract) {
       return NextResponse.json(
         { error: 'Title, authors, and abstract are required' },
+        { status: 400 }
+      )
+    }
+
+    if (pdfUrl && !isSafeUrl(pdfUrl)) {
+      return NextResponse.json(
+        { error: 'PDF URL must start with http:// or https://' },
         { status: 400 }
       )
     }
