@@ -33,22 +33,3 @@ export async function GET(
     )
   }
 }
-
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  try {
-    await prisma.paper.delete({
-      where: { id: params.id },
-    })
-
-    return NextResponse.json({ success: true })
-  } catch (error) {
-    console.error('Failed to delete paper:', error)
-    return NextResponse.json(
-      { error: 'Failed to delete paper' },
-      { status: 500 }
-    )
-  }
-}

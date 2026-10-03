@@ -10,7 +10,7 @@ import { RatingStars } from '@/components/RatingStars'
 import { ShortReviewForm } from '@/components/ShortReviewForm'
 import { ShortReviewList } from '@/components/ShortReviewList'
 import { LongReviewCard } from '@/components/LongReviewCard'
-import { parseAuthors, parseCategories, formatDate, getVisitorId } from '@/lib/utils'
+import { parseAuthors, parseCategories, formatDate, getVisitorId, isSafeUrl } from '@/lib/utils'
 import { ExternalLink, FileText, ArrowLeft } from 'lucide-react'
 
 interface Paper {
@@ -182,7 +182,7 @@ export default function PaperDetailPage() {
                 arXiv:{paper.arxivId}
               </a>
             )}
-            {paper.pdfUrl && (
+            {paper.pdfUrl && isSafeUrl(paper.pdfUrl) && (
               <a
                 href={paper.pdfUrl}
                 target="_blank"
