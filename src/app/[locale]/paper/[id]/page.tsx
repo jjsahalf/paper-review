@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { useParams } from 'next/navigation'
-import Link from 'next/link'
+import { useTranslations } from 'next-intl'
+import { Link } from '@/i18n/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -39,6 +40,11 @@ interface Paper {
 export default function PaperDetailPage() {
   const params = useParams()
   const paperId = params.id as string
+  const t = useTranslations()
+  const tPaper = useTranslations('paper')
+  const tRating = useTranslations('rating')
+  const tShort = useTranslations('shortReview')
+  const tLong = useTranslations('longReview')
 
   const [paper, setPaper] = useState<Paper | null>(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -127,9 +133,9 @@ export default function PaperDetailPage() {
   if (!paper) {
     return (
       <div className="max-w-4xl mx-auto text-center py-12">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">论文不存在</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">{tPaper('notFound')}</h1>
         <Link href="/">
-          <Button>返回首页</Button>
+          <Button>{t('common.backToHome')}</Button>
         </Link>
       </div>
     )
@@ -145,7 +151,7 @@ export default function PaperDetailPage() {
         className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900"
       >
         <ArrowLeft className="w-4 h-4" />
-        返回列表
+        {t('common.backToList')}
       </Link>
 
       {/* Paper header */}
@@ -160,13 +166,13 @@ export default function PaperDetailPage() {
           <p className="text-gray-600">{authors.join(', ')}</p>
           {paper.publishedAt && (
             <p className="text-sm text-gray-500">
-              发表于 {formatDate(paper.publishedAt)}
+              {tPaper('publishedAt')} {formatDate(paper.publishedAt)}
             </p>
           )}
         </CardHeader>
         <CardContent className="space-y-4">
           <div>
-            <h3 className="font-semibold text-gray-900 mb-2">摘要</h3>
+            <h3 className="font-semibold text-gray-900 mb-2">{tPaper('abstract')}</h3>
             <p className="text-gray-700 leading-relaxed">{paper.abstract}</p>
           </div>
 
@@ -190,7 +196,7 @@ export default function PaperDetailPage() {
                 className="inline-flex items-center gap-2 text-primary-600 hover:text-primary-700"
               >
                 <FileText className="w-4 h-4" />
-                查看 PDF
+                {tPaper('viewPdf')}
               </a>
             )}
           </div>
@@ -200,12 +206,12 @@ export default function PaperDetailPage() {
       {/* Rating section */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">评分</CardTitle>
+          <CardTitle className="text-lg">{tRating('title')}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-6">
             <div>
-              <p className="text-sm text-gray-500 mb-1">平均评分</p>
+              <p className="text-sm text-gray-500 mb-1">{tRating('average')}</p>
               <RatingStars
                 rating={paper.avgRating}
                 readonly
@@ -216,7 +222,7 @@ export default function PaperDetailPage() {
             </div>
             <div className="border-l border-gray-200 pl-6">
               <p className="text-sm text-gray-500 mb-1">
-                {userRating ? '你的评分' : '给这篇论文评分'}
+                {userRating ? tRating('yourRating') : tRating('rateThisPaper')}
               </p>
               <RatingStars
                 rating={userRating || 0}
@@ -231,7 +237,7 @@ export default function PaperDetailPage() {
       {/* Short reviews section */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-lg">短评</CardTitle>
+          <CardTitle className="text-lg">{tShort('title')}</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <ShortReviewForm
@@ -247,9 +253,9 @@ export default function PaperDetailPage() {
       {/* Long reviews section */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-lg">长评</CardTitle>
+          <CardTitle className="text-lg">{tLong('title')}</CardTitle>
           <Link href={`/paper/${paperId}/review/new`}>
-            <Button variant="outline">写长评</Button>
+            <Button variant="outline">{tLong('writeLongReview')}</Button>
           </Link>
         </CardHeader>
         <CardContent>
@@ -261,7 +267,7 @@ export default function PaperDetailPage() {
             </div>
           ) : (
             <p className="text-center text-gray-500 py-8">
-              暂无长评，来写第一篇吧！
+              {tLong('noReviews')}
             </p>
           )}
         </CardContent>

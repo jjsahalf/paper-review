@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Input } from '@/components/ui/input'
@@ -12,6 +13,7 @@ interface ShortReviewFormProps {
 }
 
 export function ShortReviewForm({ paperId, onSuccess }: ShortReviewFormProps) {
+  const t = useTranslations('shortReview')
   const [content, setContent] = useState('')
   const [nickname, setNickname] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -24,17 +26,17 @@ export function ShortReviewForm({ paperId, onSuccess }: ShortReviewFormProps) {
     setError('')
 
     if (!content.trim()) {
-      setError('请输入评论内容')
+      setError(t('errorContentRequired'))
       return
     }
 
     if (content.length > 140) {
-      setError('评论内容不能超过140字')
+      setError(t('errorContentTooLong'))
       return
     }
 
     if (!nickname.trim()) {
-      setError('请输入昵称')
+      setError(t('errorNicknameRequired'))
       return
     }
 
@@ -55,14 +57,14 @@ export function ShortReviewForm({ paperId, onSuccess }: ShortReviewFormProps) {
       })
 
       if (!response.ok) {
-        throw new Error('提交失败')
+        throw new Error(t('errorSubmitFailed'))
       }
 
       setContent('')
       setNickname('')
       onSuccess?.()
     } catch {
-      setError('提交失败，请重试')
+      setError(t('errorSubmitFailed'))
     } finally {
       setIsLoading(false)
     }
@@ -71,18 +73,18 @@ export function ShortReviewForm({ paperId, onSuccess }: ShortReviewFormProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="nickname">昵称</Label>
+        <Label htmlFor="nickname">{t('nickname')}</Label>
         <Input
           id="nickname"
           value={nickname}
           onChange={(e) => setNickname(e.target.value)}
-          placeholder="输入你的昵称"
+          placeholder={t('nicknamePlaceholder')}
           maxLength={20}
         />
       </div>
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <Label htmlFor="content">短评</Label>
+          <Label htmlFor="content">{t('title')}</Label>
           <span
             className={`text-sm ${
               remainingChars < 0 ? 'text-red-500' : 'text-gray-500'
@@ -95,14 +97,14 @@ export function ShortReviewForm({ paperId, onSuccess }: ShortReviewFormProps) {
           id="content"
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="写下你对这篇论文的简短评价..."
+          placeholder={t('contentPlaceholder')}
           rows={3}
           maxLength={140}
         />
       </div>
       {error && <p className="text-sm text-red-500">{error}</p>}
       <Button type="submit" disabled={isLoading}>
-        {isLoading ? '提交中...' : '发布短评'}
+        {isLoading ? t('publishing') : t('publish')}
       </Button>
     </form>
   )

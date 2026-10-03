@@ -1,11 +1,13 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useTranslations } from 'next-intl'
 import { PaperCard } from '@/components/PaperCard'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Search } from 'lucide-react'
+import { Link } from '@/i18n/navigation'
 
 interface Paper {
   id: string
@@ -18,22 +20,27 @@ interface Paper {
   arxivId?: string | null
 }
 
-const CATEGORIES = [
-  { value: '', label: '全部' },
-  { value: 'cs.CL', label: 'NLP' },
-  { value: 'cs.CV', label: '计算机视觉' },
-  { value: 'cs.LG', label: '机器学习' },
-  { value: 'cs.AI', label: '人工智能' },
-  { value: 'stat.ML', label: '统计机器学习' },
-]
-
-const SORT_OPTIONS = [
-  { value: 'newest', label: '最新' },
-  { value: 'rating', label: '评分最高' },
-  { value: 'popular', label: '最多评分' },
-]
-
 export default function HomePage() {
+  const t = useTranslations()
+  const tCat = useTranslations('categories')
+  const tSort = useTranslations('sort')
+  const tHome = useTranslations('home')
+
+  const CATEGORIES = [
+    { value: '', label: tCat('all') },
+    { value: 'cs.CL', label: tCat('nlp') },
+    { value: 'cs.CV', label: tCat('cv') },
+    { value: 'cs.LG', label: tCat('ml') },
+    { value: 'cs.AI', label: tCat('ai') },
+    { value: 'stat.ML', label: tCat('statML') },
+  ]
+
+  const SORT_OPTIONS = [
+    { value: 'newest', label: tSort('newest') },
+    { value: 'rating', label: tSort('rating') },
+    { value: 'popular', label: tSort('popular') },
+  ]
+
   const [papers, setPapers] = useState<Paper[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [search, setSearch] = useState('')
@@ -78,10 +85,10 @@ export default function HomePage() {
     <div className="space-y-6">
       <div className="text-center mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          开源论文评审
+          {tHome('title')}
         </h1>
         <p className="text-gray-600">
-          探索和评论计算机科学与人工智能领域的前沿研究
+          {tHome('subtitle')}
         </p>
       </div>
 
@@ -93,11 +100,11 @@ export default function HomePage() {
             <Input
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="搜索论文标题、作者或摘要..."
+              placeholder={tHome('searchPlaceholder')}
               className="pl-10"
             />
           </div>
-          <Button type="submit">搜索</Button>
+          <Button type="submit">{t('common.search')}</Button>
         </form>
 
         <div className="flex flex-wrap gap-4 items-center">
@@ -175,7 +182,7 @@ export default function HomePage() {
                 disabled={page === 1}
                 onClick={() => setPage(page - 1)}
               >
-                上一页
+                {tHome('prevPage')}
               </Button>
               <span className="flex items-center px-4 text-gray-600">
                 {page} / {totalPages}
@@ -185,17 +192,17 @@ export default function HomePage() {
                 disabled={page === totalPages}
                 onClick={() => setPage(page + 1)}
               >
-                下一页
+                {tHome('nextPage')}
               </Button>
             </div>
           )}
         </>
       ) : (
         <div className="text-center py-12">
-          <p className="text-gray-500 mb-4">暂无论文</p>
-          <Button onClick={() => (window.location.href = '/paper/add')}>
-            添加第一篇论文
-          </Button>
+          <p className="text-gray-500 mb-4">{tHome('noPapers')}</p>
+          <Link href="/paper/add">
+            <Button>{tHome('addFirstPaper')}</Button>
+          </Link>
         </div>
       )}
     </div>
